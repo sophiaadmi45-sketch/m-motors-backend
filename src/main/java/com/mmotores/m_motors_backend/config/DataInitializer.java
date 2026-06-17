@@ -18,13 +18,13 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (vehicleRepository.count() == 0) {
+        vehicleRepository.deleteAll();
 
             // 1. Peugeot 308
             Vehicle v1 = new Vehicle();
             v1.setMarque("Peugeot");
             v1.setModele("308 Active Pack");
-            v1.setType("LLD");
+            v1.setType("Achat");
             v1.setPrix(24990.0);
             v1.setKilometrage(12500);
             v1.setDescription("Peugeot 308 Active Pack grise - i-Cockpit, écran 10'', aide au stationnement");
@@ -46,7 +46,7 @@ public class DataInitializer implements CommandLineRunner {
             Vehicle v3 = new Vehicle();
             v3.setMarque("BMW");
             v3.setModele("Série 3 Touring 318d");
-            v3.setType("LLD");
+            v3.setType("Achat");
             v3.setPrix(32900.0);
             v3.setKilometrage(59030);
             v3.setDescription("BMW Série 3 Touring noire 2023 - 136 ch");
@@ -68,7 +68,7 @@ public class DataInitializer implements CommandLineRunner {
             Vehicle v5 = new Vehicle();
             v5.setMarque("Toyota");
             v5.setModele("Corolla GR Sport");
-            v5.setType("LLD");
+            v5.setType("Achat");
             v5.setPrix(27880.0);
             v5.setKilometrage(23195);
             v5.setDescription("Toyota Corolla hybride blanche 2023 - Fiable et économique");
@@ -91,4 +91,3 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("✅ 6 véhicules de test ajoutés avec succès dans PostgreSQL !");
         }
     }
-}
