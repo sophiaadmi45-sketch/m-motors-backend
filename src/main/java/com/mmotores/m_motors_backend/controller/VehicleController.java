@@ -34,4 +34,11 @@ public class VehicleController {
     public List<Vehicle> searchVehiclesByType(@RequestParam String type) {
         return vehicleRepository.findByType(type);
     }
+
+    @GetMapping("/{id}")
+    public org.springframework.http.ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
+        return vehicleRepository.findById(id)
+                .map(vehicle -> org.springframework.http.ResponseEntity.ok().body(vehicle))
+                .orElse(org.springframework.http.ResponseEntity.notFound().build());
+    }
 }
