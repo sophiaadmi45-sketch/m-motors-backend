@@ -5,6 +5,8 @@ import com.mmotores.m_motors_backend.repository.DossierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+import java.util.Optional;
 import java.util.List;
 
 @RestController
@@ -34,5 +36,37 @@ public class DossierController {
     @GetMapping("/suivi")
     public List<Dossier> suivi(@RequestParam String email) {
         return repository.findByClientEmail(email);
+    }
+
+    // ==========================================================================
+    // AJOUT DE L'US-008 : Routes pour l'Espace Pro (Back-office)
+    // ==========================================================================
+
+    @GetMapping
+    public List<Dossier> getAllDossiers() {
+        return repository.findAll();
+    }
+
+    @PutMapping("/{id}/statut")
+    public ResponseEntity<?> updateStatutDossier(
+            @PathVariable Long id, 
+            @RequestBody Dossier dossierDetails) {
+        
+        Optional<Dossier> oDossier = repository.findById(id);
+        if (oDossier.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Dossier dossier = oDossier.get();
+        
+        if (dossierDetails.getCommentaireHistorique() == null || dossierDetails.getCommentaireHistorique().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Le commentaire est obligatoire.");
+        }
+
+        dossier.setStatut(dossierDetails.getStatut());
+        dossier.setCommentaireHistorique(dossierDetails.getCommentaireHistorique());
+
+        Dossier updatedDossier = repository.save(dossier);
+        return ResponseEntity.ok(updatedDossier);
     }
 }

@@ -14,6 +14,7 @@ public class Dossier {
     private String statut = "EN_COURS";
     private String pieceIdentiteName;
     private String justificatifDomicileName;
+    private String commentaireHistorique = "";
 
     
     public Long getId() { return id; }
@@ -32,4 +33,6 @@ public class Dossier {
     public void setPieceIdentiteName(String p) { this.pieceIdentiteName = p; }
     public String getJustificatifDomicileName() { return justificatifDomicileName; }
     public void setJustificatifDomicileName(String j) { this.justificatifDomicileName = j; }
+    public String getCommentaireHistorique() { return commentaireHistorique; }
+    public void setCommentaireHistorique(String commentaireHistorique) { this.commentaireHistorique = commentaireHistorique; }
 }
