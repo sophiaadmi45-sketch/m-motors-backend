@@ -17,6 +17,7 @@ public class Vehicle {
     private String type;           // LLD ou Achat
     private Double prix;
     private Integer kilometrage;
+    @Column(columnDefinition = "TEXT") 
     private String description;
     private String imageUrl;
     private Boolean disponible = true;
