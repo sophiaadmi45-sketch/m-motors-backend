@@ -31,16 +31,37 @@ public class AuthController {
 
         Utilisateur utilisateur = oUtilisateur.get();
 
-        // 2. Vérification stricte du mot de passe
+       
         if (!utilisateur.getMotDePasse().equals(password)) {
             return ResponseEntity.status(401).body(Map.of("message", "Identifiants incorrects."));
         }
 
-        // 3. Succès : On renvoie uniquement les infos nécessaires, le mot de passe est exclu !
+       
         return ResponseEntity.ok(Map.of(
             "email", utilisateur.getEmail(),
             "role", utilisateur.getRole(),
             "message", "Connexion réussie !"
         ));
     }
+
+    @PostMapping("/inscription")
+    public ResponseEntity<?> inscription(@RequestBody Utilisateur nouvelUtilisateur) {
+        
+        Optional<Utilisateur> userExistant = repository.findByEmail(nouvelUtilisateur.getEmail());
+        if (userExistant.isPresent()) {
+            return ResponseEntity.status(400).body(Map.of("message", "Cet email est déjà utilisé."));
+        }
+       
+        nouvelUtilisateur.setRole("CLIENT");
+        nouvelUtilisateur.setActif(false); 
+
+        Utilisateur utilisateurSauvegarde = repository.save(nouvelUtilisateur);
+
+     
+        return ResponseEntity.ok(Map.of(
+            "email", utilisateurSauvegarde.getEmail(),
+            "message", "Inscription réussie ! Un e-mail de validation vous a été envoyé."
+        ));
+    }
+
 }
