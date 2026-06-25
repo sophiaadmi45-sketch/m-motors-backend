@@ -42,9 +42,8 @@ public class VehicleController {
         File fichierCible = new File(dossierDestination + nouveauNomFichier);
         
         // Conversion et écriture
-        System.out.println("[LOG BACK] Écriture physique du fichier WebP vers: " + fichierCible.getAbsolutePath());
-        ImmutableImage.loader().fromBytes(fichierOrigine.getBytes())
-                .output(new WebpWriter(80, 0, 0, false), fichierCible);
+       fichierOrigine.transferTo(fichierCible);
+        
         System.out.println("[LOG BACK] Écriture physique réussie.");
         return "/images/" + nouveauNomFichier;
     }
