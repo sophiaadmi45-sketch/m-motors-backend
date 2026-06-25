@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "https://m-motors-frontend-ldfn.onrender.com")
+
 public class AuthController {
 
     @Autowired

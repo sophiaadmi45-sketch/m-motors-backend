@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/vehicles")
-@CrossOrigin(origins = "https://m-motors-frontend-ldfn.onrender.com")
+
 public class VehicleController {
 
     private final VehicleRepository vehicleRepository;
