@@ -8,6 +8,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     
+      System.out.println("######## WebConfig chargé ########");
+      
          registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:/tmp/images/") 
                 .setCachePeriod(0);

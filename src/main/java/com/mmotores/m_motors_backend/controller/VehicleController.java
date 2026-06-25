@@ -55,6 +55,8 @@ public class VehicleController {
         return "/images/" + nouveauNomFichier;
     }
 
+    
+
     // Recherche de véhicules
     @GetMapping
     public List<Vehicle> getAllVehicles() {
