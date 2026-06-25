@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/dossiers")
-@CrossOrigin(origins = "*") 
+@CrossOrigin(origins = "https://m-motors-frontend-ldfn.onrender.com") 
 public class DossierController {
 
     @Autowired
