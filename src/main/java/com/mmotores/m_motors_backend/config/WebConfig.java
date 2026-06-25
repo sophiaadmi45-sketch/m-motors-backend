@@ -8,9 +8,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     
-        String dossierTemporaire = System.getProperty("java.io.tmpdir") + "/images/";
-        
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:" + dossierTemporaire);
+         registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:/tmp/images/") 
+                .setCachePeriod(0);
     }
 }
