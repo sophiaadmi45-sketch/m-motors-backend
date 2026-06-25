@@ -39,10 +39,17 @@ public class VehicleController {
             dossier.mkdirs(); 
         }
         
-        File fichierCible = new File(dossierDestination + nouveauNomFichier);
         
-        // Conversion et écriture
-       fichierOrigine.transferTo(fichierCible);
+        java.nio.file.Path cheminCible = java.nio.file.Paths.get(dossierDestination, nouveauNomFichier);
+        
+        System.out.println("[LOG BACK] Écriture absolue via StandardCopyOption vers: " + cheminCible.toAbsolutePath());
+        
+       
+        java.nio.file.Files.copy(
+            fichierOrigine.getInputStream(), 
+            cheminCible, 
+            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+        );
         
         System.out.println("[LOG BACK] Écriture physique réussie.");
         return "/images/" + nouveauNomFichier;
