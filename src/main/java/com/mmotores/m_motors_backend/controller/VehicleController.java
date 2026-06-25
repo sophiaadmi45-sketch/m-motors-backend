@@ -32,20 +32,19 @@ public class VehicleController {
         String nomSansExtension = nomOriginal.substring(0, nomOriginal.lastIndexOf("."));
         String nouveauNomFichier = nomSansExtension + "_" + System.currentTimeMillis() + ".webp";
 
-        String dossierDestination = System.getProperty("java.io.tmpdir") + "/images/";
+        
+        String dossierDestination = "/tmp/images/"; 
         File dossier = new File(dossierDestination);
         if (!dossier.exists()) {
-        dossier.mkdirs();
+            dossier.mkdirs(); 
         }
         
-
         File fichierCible = new File(dossierDestination + nouveauNomFichier);
-
+        
         // Conversion et écriture
         System.out.println("[LOG BACK] Écriture physique du fichier WebP vers: " + fichierCible.getAbsolutePath());
         ImmutableImage.loader().fromBytes(fichierOrigine.getBytes())
                 .output(new WebpWriter(80, 0, 0, false), fichierCible);
-
         System.out.println("[LOG BACK] Écriture physique réussie.");
         return "/images/" + nouveauNomFichier;
     }
