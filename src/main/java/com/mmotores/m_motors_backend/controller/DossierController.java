@@ -17,11 +17,15 @@ public class DossierController {
     @Autowired
     private DossierRepository repository;
 
+
     @PostMapping("/depot")
     public Dossier depot(
-            @RequestParam Long vehicleId, @RequestParam String clientName,
-            @RequestParam String clientEmail, @RequestParam String typeContrat,
-            @RequestParam MultipartFile pieceIdentite, @RequestParam MultipartFile justificatifDomicile) {
+            @RequestParam(required = false) Long vehicleId, 
+            @RequestParam(required = false) String clientName,
+            @RequestParam(required = false) String clientEmail, 
+            @RequestParam(required = false) String typeContrat,
+            @RequestParam(required = false) MultipartFile pieceIdentite, 
+            @RequestParam(required = false) MultipartFile justificatifDomicile) {
         
         Dossier d = new Dossier();
         d.setVehicleId(vehicleId);
