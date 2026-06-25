@@ -32,15 +32,12 @@ public class VehicleController {
         String nomSansExtension = nomOriginal.substring(0, nomOriginal.lastIndexOf("."));
         String nouveauNomFichier = nomSansExtension + "_" + System.currentTimeMillis() + ".webp";
 
-        
-        String dossierDestination = "C:/Users/sophi/Documents/m-motors/m-motors-frontend/public/images/";
-        
-        // Sécurité : On crée le dossier s'il n'existe pas sur le disque
+        String dossierDestination = System.getProperty("java.io.tmpdir") + "/images/";
         File dossier = new File(dossierDestination);
         if (!dossier.exists()) {
-            System.out.println("[LOG BACK] Dossier inexistant, création de : " + dossierDestination);
-            dossier.mkdirs(); 
+        dossier.mkdirs();
         }
+        
 
         File fichierCible = new File(dossierDestination + nouveauNomFichier);
 
