@@ -20,7 +20,7 @@ public class MMotorsBackendApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173")  // Ton frontend Vite
+                        .allowedOrigins("http://localhost:5173", "https://m-motors-frontend-ldfn.onrender.com/")  
                         .allowedMethods("*")
                         .allowedHeaders("*");
             }

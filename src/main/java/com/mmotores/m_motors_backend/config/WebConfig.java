@@ -1,14 +1,16 @@
+package com.mmotores.m_motors_backend.config;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
+ystem.out.println("######## CONSTRUCTEUR WEBCONFIG ########");
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     
-      System.out.println("######## WebConfig chargé ########");
+     System.out.println("######## RESOURCE HANDLER ########");
       
          registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:/tmp/images/") 
