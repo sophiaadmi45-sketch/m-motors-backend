@@ -5,9 +5,10 @@ import com.mmotores.m_motors_backend.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
 import java.util.Optional;
+import com.mmotores.m_motors_backend.request.ConnexionRequest;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -18,11 +19,10 @@ public class AuthController {
     private UtilisateurRepository repository;
 
     @PostMapping("/connexion")
-    public ResponseEntity<?> connexion(@RequestBody Map<String, String> loginData) {
-        String email = loginData.get("email");
-        String password = loginData.get("password");
+    public ResponseEntity<?> connexion(@RequestBody ConnexionRequest request) {
+        String email = request.getEmail();
+        String password = request.getMotDePasse();
 
-       
         Optional<Utilisateur> oUtilisateur = repository.findByEmail(email);
         
         if (oUtilisateur.isEmpty()) {
@@ -31,12 +31,12 @@ public class AuthController {
 
         Utilisateur utilisateur = oUtilisateur.get();
 
-       
         if (!utilisateur.getMotDePasse().equals(password)) {
             return ResponseEntity.status(401).body(Map.of("message", "Identifiants incorrects."));
         }
 
-       
+        
+
         return ResponseEntity.ok(Map.of(
             "email", utilisateur.getEmail(),
             "role", utilisateur.getRole(),
