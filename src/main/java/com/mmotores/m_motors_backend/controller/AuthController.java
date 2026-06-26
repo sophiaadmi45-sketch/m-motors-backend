@@ -5,6 +5,7 @@ import com.mmotores.m_motors_backend.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Map;
 import java.util.Optional;
 import com.mmotores.m_motors_backend.request.ConnexionRequest;
