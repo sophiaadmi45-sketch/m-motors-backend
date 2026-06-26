@@ -18,6 +18,8 @@ public class AuthController {
     @Autowired
     private UtilisateurRepository repository;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @PostMapping("/connexion")
     public ResponseEntity<?> connexion(@RequestBody ConnexionRequest request) {
         String email = request.getEmail();
@@ -31,7 +33,7 @@ public class AuthController {
 
         Utilisateur utilisateur = oUtilisateur.get();
 
-        if (!utilisateur.getMotDePasse().equals(password)) {
+         if (!passwordEncoder.matches(password, utilisateur.getMotDePasse())) {
             return ResponseEntity.status(401).body(Map.of("message", "Identifiants incorrects."));
         }
 
@@ -52,16 +54,16 @@ public class AuthController {
             return ResponseEntity.status(400).body(Map.of("message", "Cet email est déjà utilisé."));
         }
        
-        nouvelUtilisateur.setRole("CLIENT");
-        nouvelUtilisateur.setActif(false); 
+        String motDePasseHache = passwordEncoder.encode(nouvelUtilisateur.getMotDePasse());
+        nouvelUtilisateur.setMotDePasse(motDePasseHache);
 
+        nouvelUtilisateur.setRole("CLIENT");
+        nouvelUtilisateur.setActif(false);
         Utilisateur utilisateurSauvegarde = repository.save(nouvelUtilisateur);
 
-     
         return ResponseEntity.ok(Map.of(
             "email", utilisateurSauvegarde.getEmail(),
             "message", "Inscription réussie ! Un e-mail de validation vous a été envoyé."
         ));
     }
-
 }
