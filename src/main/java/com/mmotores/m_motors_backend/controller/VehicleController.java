@@ -82,7 +82,7 @@ public class VehicleController {
                 .orElse(org.springframework.http.ResponseEntity.notFound().build());
     }
 
- @PostMapping(consumes = {"multipart/form-data"})
+ @PostMapping
     public org.springframework.http.ResponseEntity<?> addVehicle(
             @RequestParam(required = false) String marque,
             @RequestParam(required = false) String modele,
