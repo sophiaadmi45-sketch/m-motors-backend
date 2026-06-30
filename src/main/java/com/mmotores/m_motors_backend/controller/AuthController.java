@@ -40,9 +40,19 @@ public class AuthController {
 
         
 
+       // Génération du token JWT (Valable 24 heures) avec signature cryptographique
+        String token = io.jsonwebtoken.Jwts.builder()
+                .setSubject(utilisateur.getEmail())
+                .claim("role", utilisateur.getRole())
+                .setIssuedAt(new java.util.Date())
+                .setExpiration(new java.util.Date(System.currentTimeMillis() + 86400000))
+                .signWith(io.jsonwebtoken.SignatureAlgorithm.HS256, "MaCleSecreteSuperSecuriseePourMonExamenMMotors2026")
+                .compact();
+
         return ResponseEntity.ok(Map.of(
             "email", utilisateur.getEmail(),
             "role", utilisateur.getRole(),
+            "token", token,
             "message", "Connexion réussie !"
         ));
     }
