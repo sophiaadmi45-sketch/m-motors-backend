@@ -83,19 +83,17 @@ public class VehicleController {
     }
 
  @PostMapping(consumes = {"multipart/form-data"})
-    public Vehicle addVehicle(
+    public org.springframework.http.ResponseEntity<?> addVehicle(
+            @RequestParam(required = false) String marque,
+            @RequestParam(required = false) String modele,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) Double prix,
+            @RequestParam(required = false) Integer kilometrage,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) Boolean disponible,
+            @RequestParam(required = false) MultipartFile imageFile) {
             
-            @RequestParam String marque,
-            @RequestParam String modele,
-            @RequestParam String type,
-            @RequestParam Double prix,
-            @RequestParam Integer kilometrage,
-            @RequestParam String description,
-            @RequestParam Boolean disponible,
-            @RequestParam MultipartFile imageFile) {
-            
-
-            System.out.println("=================== [LOG POST /vehicles] ===================");
+        System.out.println("=================== [LOG POST /vehicles] ===================");
         System.out.println("Marque reçue : " + marque);
         System.out.println("Modèle reçu : " + modele);
         System.out.println("Type reçu : " + type);
@@ -105,7 +103,13 @@ public class VehicleController {
         System.out.println("Disponible reçu : " + disponible);
         System.out.println("Fichier image reçu : " + (imageFile != null ? imageFile.getOriginalFilename() : "NULL"));
         System.out.println("=========================================================");
+
         
+        if (marque == null || imageFile == null) {
+            System.out.println("[LOG BACK] ⚠️ Requête de test détectée (Body vide ou incomplet). Aucun véhicule créé.");
+            return org.springframework.http.ResponseEntity.badRequest().body("Données de formulaire ou image manquantes.");
+        }
+
         try {
             Vehicle vehicle = new Vehicle();
             vehicle.setMarque(marque);
@@ -116,7 +120,7 @@ public class VehicleController {
             vehicle.setDescription(description);
             vehicle.setDisponible(disponible);
             
-            // Appel de la conversion automatique et écriture sur le disque
+            
             String cheminWebp = convertirEtSauvegarderEnWebp(imageFile);
             vehicle.setImageUrl(cheminWebp); 
 
@@ -124,12 +128,12 @@ public class VehicleController {
             Vehicle savedVehicle = vehicleRepository.save(vehicle);
             System.out.println("[LOG BACK] ✅ Sauvegarde réussie avec l'ID #" + savedVehicle.getId());
             
-            
-            return vehicleRepository.save(vehicle);
+            return org.springframework.http.ResponseEntity.ok().body(savedVehicle);
+
         } catch (Exception e) {
             System.err.println("[LOG ERROR] 🔥 Crash survenu dans addVehicle ! Voici le détail :");
-            e.printStackTrace(); // <- Force l'affichage complet de l'erreur dans ton terminal
-            throw new RuntimeException("Erreur lors de la création du véhicule", e);
+            e.printStackTrace(); 
+            return org.springframework.http.ResponseEntity.status(500).body("Erreur lors de la création du véhicule : " + e.getMessage());
         }
     }
 
@@ -141,7 +145,7 @@ public class VehicleController {
                 .map(vehicle -> {
                     vehicle.setMarque(vehicleDetails.getMarque());
                     vehicle.setModele(vehicleDetails.getModele());
-                    vehicle.setType(vehicleDetails.getType()); // Permet la bascule "LLD" <=> "Achat"
+                    vehicle.setType(vehicleDetails.getType()); 
                     vehicle.setPrix(vehicleDetails.getPrix());
                     vehicle.setKilometrage(vehicleDetails.getKilometrage());
                     vehicle.setDescription(vehicleDetails.getDescription());
